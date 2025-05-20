@@ -1,10 +1,8 @@
 name: Sign
 
 on:
-  workflow_dispatch:
-
-permissions:
-  contents: write
+  release:
+    types: [released]
 
 jobs:
   sign:

@@ -3,6 +3,7 @@ name: Release
 on:
   release:
     types:
+      - prereleased
       - released
   push:
     branches:
@@ -14,10 +15,13 @@ on:
       - "go.mod"
       - "go.sum"
       - ".github/workflows/*.yml"
-  workflow_dispatch:
-
-permissions:
-  contents: write
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+      - ".github/workflows/*.yml"
 
 jobs:
   build:
@@ -282,7 +286,6 @@ jobs:
           file: build_artifacts/v2ray-extra.zip
           tag: ${{ github.ref }}
           overwrite: true
-
   buildContainer:
     if: github.event_name == 'release'
     needs: signature
